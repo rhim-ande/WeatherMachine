@@ -7,22 +7,18 @@ import sqlalchemy as db
 from sqlalchemy import create_engine 
 
 
-option_input = input("Enter one weather option: \n 1. Forecast \n 2. Realtime Weather \n 3. History \n ")
+option_input = input("Enter one weather option: \n 1. 3-day Forecast \n 2. Realtime Weather \n 3. History \n ")
 
 
 if option_input == "1":
     city_input = input("Enter your city name: ")
-    #days_input = input("Enter number of days for your forecast: ")
-
     url = 'http://api.weatherapi.com/v1/forecast.json'
     querystring = {"q":{city_input},"days":"3"}
     headers = {
-	"key": "fdab0fe0b1d1492c889224703220707"
+	    "key": "fdab0fe0b1d1492c889224703220707"
     }
     response = requests.get(url, headers=headers, params=querystring)
-
     weather_data = response.json()['forecast']
-
     empty_list1 = []
     empty_list2 = []
     empty_list3 = []
@@ -43,16 +39,15 @@ if option_input == "1":
 
     weather_dataframe = pd.DataFrame(list(zip(empty_list1, empty_list2, empty_list3, empty_list4, empty_list5)),
                columns =['Date', 'MaxTemp', 'MinTemp', 'AvgTemp', 'AvgHumidity'])
-
-
+        
     engine = db.create_engine('sqlite:///forecast_weather.db')
     weather_dataframe.to_sql('weather_info', con=engine, if_exists='replace', index=False)
     query_result = engine.execute("SELECT * FROM weather_info;").fetchall()
     df = pd.DataFrame(query_result)
-
     df.columns = ["Date", "MaxTemp", "MinTemp", "AvgTemp", "AvgHumidity"]
 
     print(df)
+    
 
 
 
@@ -86,9 +81,8 @@ if option_input == "2":
     print(df)
 
 
-
-          
-
+  
+ 
 if option_input == "3":
     city_input = input("Enter your city name: ")
     date_input = input("Enter date in the format yyyy-mm-dd (upto last 7 days): ")
@@ -122,9 +116,9 @@ if option_input == "3":
                columns =['Date', 'MaxTemp', 'MinTemp', 'AvgTemp', 'AvgHumidity'])
 
 
-    engine = db.create_engine('sqlite:///forecast_weather.db')
-    weather_dataframe.to_sql('weather_info', con=engine, if_exists='replace', index=False)
-    query_result = engine.execute("SELECT * FROM weather_info;").fetchall()
+    engine = db.create_engine('sqlite:///history_weather.db')
+    weather_dataframe.to_sql('history_info', con=engine, if_exists='replace', index=False)
+    query_result = engine.execute("SELECT * FROM history_info;").fetchall()
     df = pd.DataFrame(query_result)
 
     df.columns = ["Date", "MaxTemp", "MinTemp", "AvgTemp", "AvgHumidity"]
