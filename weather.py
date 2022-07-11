@@ -6,16 +6,16 @@ import pandas as pd
 import sqlalchemy as db
 from sqlalchemy import create_engine 
 
-
+apikey = os.environ.get("wm_apikey")
 option_input = input("Enter one weather option: \n 1. 3-day Forecast \n 2. Realtime Weather \n 3. History \n ")
 
 
-if option_input == "1":
+def Forecast(): 
     city_input = input("Enter your city name: ")
     url = 'http://api.weatherapi.com/v1/forecast.json'
     querystring = {"q":{city_input},"days":"3"}
     headers = {
-	    "key": "fdab0fe0b1d1492c889224703220707"
+	    "key":apikey
     }
     response = requests.get(url, headers=headers, params=querystring)
     weather_data = response.json()['forecast']
@@ -46,18 +46,17 @@ if option_input == "1":
     df = pd.DataFrame(query_result)
     df.columns = ["Date", "MaxTemp", "MinTemp", "AvgTemp", "AvgHumidity"]
 
-    print(df)
+    return df
+   
     
 
 
-
-if option_input == "2":
+def Realtime():
     city_input = input("Enter your city name: ")
     url = "http://api.weatherapi.com/v1/current.json"
     querystring = {"q":{city_input}}
     headers = {
-        "key": "fdab0fe0b1d1492c889224703220707"
-
+        "key":apikey
     }
     response = requests.get(url, headers=headers, params=querystring)
     realtime_data = response.json()['current']
@@ -78,18 +77,19 @@ if option_input == "2":
 
     df.columns = ["Time Updated", "Temp_F", "Condition"]
 
-    print(df)
+    return df
+
+
 
 
   
- 
-if option_input == "3":
+def History():
     city_input = input("Enter your city name: ")
-    date_input = input("Enter date in the format yyyy-mm-dd (upto last 7 days): ")
+    date_input = input("Enter date in the format yyyy-mm-dd (up to last 7 days): ")
     url = "http://api.weatherapi.com/v1/history.json"
     querystring = {"q":{city_input},"dt":{date_input},"lang":"en"}
     headers = {
-	    "key": "fdab0fe0b1d1492c889224703220707"
+	    "key":apikey 
     }
     response = requests.get(url, headers=headers, params=querystring)
     weather_data = response.json()['forecast']
@@ -123,5 +123,13 @@ if option_input == "3":
 
     df.columns = ["Date", "MaxTemp", "MinTemp", "AvgTemp", "AvgHumidity"]
 
-    print(df)
+    return df
 
+
+if option_input == "1":
+    print(Forecast())
+elif option_input == "2":
+    print(Realtime())
+else:
+    print(History())
+  
