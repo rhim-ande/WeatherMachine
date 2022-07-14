@@ -6,7 +6,7 @@
 
 
  * **Requirements**
-  The following libraries need to beinstalled fro the program to run:
+  The following libraries need to be installed fro the program to run:
   1. Requests
   2. Pprint
   3. Json
@@ -14,7 +14,14 @@
   5. Pandas
   6. SQLAlchemy
 
-  The user is also required to set environmental variables by getting an api key from the weather api
+  The user is also required to set environmental variables by getting an API key from WeatherAPI. 
 
  *  **To access Weather API:**
   https://www.weatherapi.com/
+
+ * **Instructions**
+  1. Install the required libraries
+  
+  2. Run python3 weather.py 
+  
+  3. Respond to prompts in the terminal.

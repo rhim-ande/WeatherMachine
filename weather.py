@@ -7,6 +7,8 @@ import sqlalchemy as db
 from sqlalchemy import create_engine 
 
 apikey = os.environ.get("wm_apikey")
+
+
 option_input = input("Enter one weather option: \n 1. 3-day Forecast \n 2. Realtime Weather \n 3. History \n ")
 
 
@@ -80,8 +82,6 @@ def Realtime():
     return df
 
 
-
-
   
 def History():
     city_input = input("Enter your city name: ")
@@ -124,6 +124,7 @@ def History():
     df.columns = ["Date", "MaxTemp", "MinTemp", "AvgTemp", "AvgHumidity"]
 
     return df
+
 
 
 if option_input == "1":
